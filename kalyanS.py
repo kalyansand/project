@@ -17,10 +17,8 @@ if __name__ == "__main__":
     # will use when we give multiple files 
     # print (sys.argv[0])
     if len(sys.argv)-1 > 1:
-        print("entered")
-        print("Usage: python3 xxx.py <file_name>")
+        pass
 
-    
     if len(sys.argv)-1 == 0:
         print_file_lines()
     else:
