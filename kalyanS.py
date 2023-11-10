@@ -1,13 +1,13 @@
 import sys
 
 # Define a function to read and print lines from a file
-def print_file_lines(file_name="/Users/sandeepreddy/Desktop/kalyan/project/kalyan.txt"):
+def print_file_lines(file_name="C:\\Users\\sripa\\OneDrive\\Desktop\\msd\\project\\kalyan.txt"):
     try:
         # Open the file in read mode
         with open(file_name, 'r') as file:
             # Read and print each line
             for line in file:
-                print(line, end='')  # 'end='' to avoid double spacing due to newline characters
+                print(line, end='')  
     except FileNotFoundError:
         print(f"Error: File '{file_name}' not found.")
 
