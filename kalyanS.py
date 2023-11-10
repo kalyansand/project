@@ -26,3 +26,17 @@ with open('/Users/sandeepreddy/Desktop/kalyan/project/kalyan.txt', 'r') as file:
 
 
 
+import sys
+#input_file = open("trace.txt", 'r')
+if len(sys.argv) != 2:
+    print("Usage: python split.py <input_file.txt>")
+    sys.exit(1)
+input_file = sys.argv[1]
+try:
+    with open(input_file, 'r') as file:
+        content = file.read()
+        print("Contents of the file:")
+        print(content)
+except FileNotFoundError:
+    # print(str("Error: File  "+  input_file + "not found."))
+
