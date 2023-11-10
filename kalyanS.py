@@ -15,18 +15,11 @@ def print_file_lines(file_name="/Users/sandeepreddy/Desktop/kalyan/project/kalya
 
 if __name__ == "__main__":
     # will use when we give multiple files 
-    print (sys.argv[0])
+    # print (sys.argv[0])
     if len(sys.argv)-1 > 1:
         print("entered")
         print("Usage: python3 xxx.py <file_name>")
 
-
-    # Get the file name from the command line argument
-    # file_name = sys.argv[1]
-
-    # # Call the function to print file lines
-    # print_file_lines(file_name)
-    
     
     if len(sys.argv)-1 == 0:
         print_file_lines()
