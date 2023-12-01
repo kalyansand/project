@@ -63,17 +63,19 @@ def generate_dram_commands(memory_requests):
     t1 = 0
     t2 = 0
     t3 = 0
+    prev_bank = 5
+    prev_bankgroup = 9
     for request in memory_requests:
         time = request["time"]
         core = request["core"]
         operation = request["operation"]
         addresses = request["address"]
-        print(f"{addresses}")
-        prev_bank = 5
-        prev_bankgroup = 9
+        # print(f"{addresses}")
+        
         low_column, bank_group, bank, column, row = address_mapping(addresses)  # Call address_mapping for each address
-        print(f"{low_column},{bank_group},{bank}, {column},{row}")
-        # break
+        # print(f"{low_column},{bank_group},{bank}, {column},{row}")
+        print("bank, bankgroup, prev:-------", bank_group, bank)
+        print("prev, prev_bank---", prev_bankgroup, prev_bank)
         if bank_group != prev_bankgroup and bank != prev_bank:
             t1 = t3 + 1
             t2 = t1 + tRCD
@@ -89,8 +91,9 @@ def generate_dram_commands(memory_requests):
                 dram_commands.append(f"{t1*2} {channel} ACT1 {bank_group} {bank} {row}")
                 dram_commands.append(f"{t2*2} {channel} WR0  {bank_group} {bank} {column}{low_column}")
                 dram_commands.append(f"{t2*2} {channel} WR1  {bank_group} {bank} {column}{low_column}")
-                dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")
+                dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")       
         elif bank_group == prev_bankgroup and bank == prev_bank:
+            print(":check---")
             t1 = t3 + 1 + tRP
             t2 = t1 + tRCD
             t3 = t2 + tCL + tBURST
@@ -105,9 +108,11 @@ def generate_dram_commands(memory_requests):
                 dram_commands.append(f"{t1*2} {channel} ACT1 {bank_group} {bank} {row}")
                 dram_commands.append(f"{t2*2} {channel} WR0  {bank_group} {bank} {column}{low_column}")
                 dram_commands.append(f"{t2*2} {channel} WR1  {bank_group} {bank} {column}{low_column}")
-                dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")
+                dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")   
         prev_bankgroup = bank_group
         prev_bank = bank
+        # print (f"{prev_bankgroup},{prev_bank}")
+        
     # print(dram_commands)
     return dram_commands
 
