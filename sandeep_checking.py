@@ -51,67 +51,64 @@ def read_input_trace(file_name):
                 "operation": int(operation),
                 "address": address
             })
+            
+            # print(memory_requests)
     return memory_requests
 
 # Generate DRAM commands based on memory operation type
 def generate_dram_commands(memory_requests):
     dram_commands = []
     channel = 0
-    all_addresses = []  # Create a list to store all addresses
-
+    # all_addresses = []  # Create a list to store all addresses
+    t1 = 0
+    t2 = 0
+    t3 = 0
     for request in memory_requests:
         time = request["time"]
         core = request["core"]
         operation = request["operation"]
         addresses = request["address"]
-        #print(f"{time} {core} {operation} {addresses}")
+        print(f"{addresses}")
         prev_bank = 5
         prev_bankgroup = 9
-        t1 = 0
-        t2 = 0
-        t3 = 0
-
-        for address in addresses:
-            #int_address = int(address, 16)  # Convert hex string to integer
-            all_addresses.append(address)  # Append the integer address to the list
-            print(all_addresses)
-            break
-            low_column, bank_group, bank, column, row = address_mapping(address)  # Call address_mapping for each address
-            if bank_group != prev_bankgroup and bank != prev_bank:
-                t1 = t3 + 1
-                t2 = t1 + tRCD
-                t3 = t2 + tCL + tBURST
-                if operation == 0 or operation == 2:
-                    dram_commands.append(f"{t1*2} {channel} ACT0 {bank_group} {bank} {row}")
-                    dram_commands.append(f"{t1*2} {channel} ACT1 {bank_group} {bank} {row}")
-                    dram_commands.append(f"{t2*2} {channel} RD0  {bank_group} {bank} {column}{low_column}")
-                    dram_commands.append(f"{t2*2} {channel} RD1  {bank_group} {bank} {column}{low_column}")
-                    dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")
-                elif operation == 1:
-                    dram_commands.append(f"{t1*2} {channel} ACT0 {bank_group} {bank} {row}")
-                    dram_commands.append(f"{t1*2} {channel} ACT1 {bank_group} {bank} {row}")
-                    dram_commands.append(f"{t2*2} {channel} WR0  {bank_group} {bank} {column}{low_column}")
-                    dram_commands.append(f"{t2*2} {channel} WR1  {bank_group} {bank} {column}{low_column}")
-                    dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")
-            elif bank_group == prev_bankgroup and bank == prev_bank:
-                t1 = t3 + 1 + tRP
-                t2 = t1 + tRCD
-                t3 = t2 + tCL + tBURST
-                if operation == 0 or operation == 2:
-                    dram_commands.append(f"{t1*2} {channel} ACT0 {bank_group} {bank} {row}")
-                    dram_commands.append(f"{t1*2} {channel} ACT1 {bank_group} {bank} {row}")
-                    dram_commands.append(f"{t2*2} {channel} RD0  {bank_group} {bank} {column}{low_column}")
-                    dram_commands.append(f"{t2*2} {channel} RD1  {bank_group} {bank} {column}{low_column}")
-                    dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")
-                elif operation == 1:
-                    dram_commands.append(f"{t1*2} {channel} ACT0 {bank_group} {bank} {row}")
-                    dram_commands.append(f"{t1*2} {channel} ACT1 {bank_group} {bank} {row}")
-                    dram_commands.append(f"{t2*2} {channel} WR0  {bank_group} {bank} {column}{low_column}")
-                    dram_commands.append(f"{t2*2} {channel} WR1  {bank_group} {bank} {column}{low_column}")
-                    dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")
-            prev_bankgroup = bank_group
-            prev_bank = bank
-    print(dram_commands)
+        low_column, bank_group, bank, column, row = address_mapping(addresses)  # Call address_mapping for each address
+        print(f"{low_column},{bank_group},{bank}, {column},{row}")
+        # break
+        if bank_group != prev_bankgroup and bank != prev_bank:
+            t1 = t3 + 1
+            t2 = t1 + tRCD
+            t3 = t2 + tCL + tBURST
+            if operation == 0 or operation == 2:
+                dram_commands.append(f"{t1*2} {channel} ACT0 {bank_group} {bank} {row}")
+                dram_commands.append(f"{t1*2} {channel} ACT1 {bank_group} {bank} {row}")
+                dram_commands.append(f"{t2*2} {channel} RD0  {bank_group} {bank} {column}{low_column}")
+                dram_commands.append(f"{t2*2} {channel} RD1  {bank_group} {bank} {column}{low_column}")
+                dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")
+            elif operation == 1:
+                dram_commands.append(f"{t1*2} {channel} ACT0 {bank_group} {bank} {row}")
+                dram_commands.append(f"{t1*2} {channel} ACT1 {bank_group} {bank} {row}")
+                dram_commands.append(f"{t2*2} {channel} WR0  {bank_group} {bank} {column}{low_column}")
+                dram_commands.append(f"{t2*2} {channel} WR1  {bank_group} {bank} {column}{low_column}")
+                dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")
+        elif bank_group == prev_bankgroup and bank == prev_bank:
+            t1 = t3 + 1 + tRP
+            t2 = t1 + tRCD
+            t3 = t2 + tCL + tBURST
+            if operation == 0 or operation == 2:
+                dram_commands.append(f"{t1*2} {channel} ACT0 {bank_group} {bank} {row}")
+                dram_commands.append(f"{t1*2} {channel} ACT1 {bank_group} {bank} {row}")
+                dram_commands.append(f"{t2*2} {channel} RD0  {bank_group} {bank} {column}{low_column}")
+                dram_commands.append(f"{t2*2} {channel} RD1  {bank_group} {bank} {column}{low_column}")
+                dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")
+            elif operation == 1:
+                dram_commands.append(f"{t1*2} {channel} ACT0 {bank_group} {bank} {row}")
+                dram_commands.append(f"{t1*2} {channel} ACT1 {bank_group} {bank} {row}")
+                dram_commands.append(f"{t2*2} {channel} WR0  {bank_group} {bank} {column}{low_column}")
+                dram_commands.append(f"{t2*2} {channel} WR1  {bank_group} {bank} {column}{low_column}")
+                dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")
+        prev_bankgroup = bank_group
+        prev_bank = bank
+    # print(dram_commands)
     return dram_commands
 
 # Rest of the code remains unchanged
