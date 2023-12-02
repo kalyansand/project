@@ -1,0 +1,81 @@
+0000000000000000000000000000000011
+Below is address mapping info
+low_column: 0
+Bank_group: 0
+Bank: 0
+Column: 0x0
+Row: 0x0
+
+
+0000000000000000000000000000001111
+Below is address mapping info
+low_column: 3
+Bank_group: 0
+Bank: 0
+Column: 0x0
+Row: 0x0
+
+
+0000000000000000000000000000001111
+Below is address mapping info
+low_column: 3
+Bank_group: 0
+Bank: 0
+Column: 0x0
+Row: 0x0
+
+
+0000000000000000000000000000001111
+Below is address mapping info
+low_column: 3
+Bank_group: 0
+Bank: 0
+Column: 0x0
+Row: 0x0
+
+
+0000000000000000000000000000001100
+Below is address mapping info
+low_column: 3
+Bank_group: 0
+Bank: 0
+Column: 0x0
+Row: 0x0
+
+
+0000000000000000000000000000000001
+Below is address mapping info
+low_column: 0
+Bank_group: 0
+Bank: 0
+Column: 0x0
+Row: 0x0
+
+
+0000000000000000000000000000000100
+Below is address mapping info
+low_column: 1
+Bank_group: 0
+Bank: 0
+Column: 0x0
+Row: 0x0
+
+
+0000000000000000000000000000001000
+Below is address mapping info
+low_column: 2
+Bank_group: 0
+Bank: 0
+Column: 0x0
+Row: 0x0
+
+
+0000000000000000000000000000000101
+Below is address mapping info
+low_column: 1
+Bank_group: 0
+Bank: 0
+Column: 0x0
+Row: 0x0
+
+

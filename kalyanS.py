@@ -1,7 +1,7 @@
 import sys
 
 # Define a function to read and print lines from a file
-def print_file_lines(file_name="C:\\Users\\sripa\\OneDrive\\Desktop\\MSD_PROJECT\\project\\kalyan.txt"):
+def print_file_lines(file_name="C:\\Users\\sripa\\OneDrive\\Desktop\\msd\\project\\kalyan.txt"):
     try:
         # Open the file in read mode
         with open(file_name, 'r') as file:

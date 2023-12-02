@@ -1,0 +1,8 @@
+ binary address of memory request : 3FFFC1485
+1111111111111111000001010010000101
+Below is address mapping info
+low_column:1
+Bank_group: 1
+Bank: 1
+Column: 0xffff
+Row: 0x1
