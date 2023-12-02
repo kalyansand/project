@@ -75,7 +75,7 @@ def generate_dram_commands(memory_requests):
             #int_address = int(address, 16)  # Convert hex string to integer
             all_addresses.append(address)  # Append the integer address to the list
             print(all_addresses)
-            break
+            
             low_column, bank_group, bank, column, row = address_mapping(address)  # Call address_mapping for each address
             if bank_group != prev_bankgroup and bank != prev_bank:
                 t1 = t3 + 1

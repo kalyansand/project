@@ -8,7 +8,7 @@ def print_file_lines(file_name="C:\\Users\\sripa\\OneDrive\\Desktop\\MSD_PROJECT
         with open(file_name, 'r') as file:
             # Read and print each line
             for line in file:
-                print(line, end='')  
+                print(line)  
     except FileNotFoundError:
         print(f"Error: File '{file_name}' not found.")
 

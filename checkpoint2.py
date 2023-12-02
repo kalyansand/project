@@ -1,7 +1,6 @@
 from collections import deque
 import sys
 
-
 class Queue:
         def __init__(self):
             self.buffer = []
