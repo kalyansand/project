@@ -147,12 +147,8 @@ wait = []
 for command in dram_commands_list:
     if not is_queue_full(dram_queue):
         dram_queue.append(command)
-
-    
     else:
-        
         wait = dram_commands_list[dram_commands_list.index(command):]
-        print("sruthi waiting time", wait)
         break 
 # else:
 #         
