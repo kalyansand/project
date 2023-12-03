@@ -1,4 +1,4 @@
-# Address mapping function (unchanged)
+# Scheduling
 import sys
 
 
@@ -23,6 +23,23 @@ tCCD_L_RTW= 16
 tCCD_S_RTW =16
 tCCD_L_WTR =70
 tCCD_S_WTR =52
+
+# Function to read and parse input file (unchanged)
+def read_input_trace(file_name):
+    memory_requests = []
+    with open(file_name, 'r') as file:
+        for line in file:
+            time, core, operation, address = line.strip().split()
+            memory_requests.append({
+                "time": int(time),
+                "core": int(core),
+                "operation": int(operation),
+                "address": address
+            })
+            
+            # print(memory_requests)
+    return memory_requests
+
 def address_mapping(address):
     binary_address = bin(int(address, 16))[2:].zfill(34)
     low_column = hex(int(binary_address[-6:-2], 2))[2:]
@@ -40,21 +57,7 @@ def address_mapping(address):
     # print(f"Column: {column}")
     # print(f"Row: {row}")
     return (low_column,bank_group,bank,column,row)
-# Function to read and parse input file (unchanged)
-def read_input_trace(file_name):
-    memory_requests = []
-    with open(file_name, 'r') as file:
-        for line in file:
-            time, core, operation, address = line.strip().split()
-            memory_requests.append({
-                "time": int(time),
-                "core": int(core),
-                "operation": int(operation),
-                "address": address
-            })
-            
-            # print(memory_requests)
-    return memory_requests
+
 
 # Generate DRAM commands based on memory operation type
 def generate_dram_commands(memory_requests):
@@ -69,7 +72,7 @@ def generate_dram_commands(memory_requests):
        # core = request["core"]
         operation = request["operation"]
         addresses = request["address"]
-        
+        #ck_time = time
         low_column, bank_group, bank, column, row = address_mapping(addresses)  # Call address_mapping for each address
         # print(f"{low_column},{bank_group},{bank}, {column},{row}")
         # print("bank, bankgroup, prev:-------", bank_group, bank)
@@ -87,9 +90,9 @@ def generate_dram_commands(memory_requests):
                 dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")
             elif operation == 1:
                 dram_commands.append(f"{t1*2} {channel} ACT0 {bank_group} {bank} {row}")
-                dram_commands.append(f"{t1*2+2} {channel} ACT1 {bank_group} {bank} {row}")
-                dram_commands.append(f"{t2*2+tCWD+tWR} {channel} WR0  {bank_group} {bank} {column}{low_column}")
-                dram_commands.append(f"{t2*2+tCWD+tWR+2} {channel} WR1  {bank_group} {bank} {column}{low_column}")
+                dram_commands.append(f"{t1*2} {channel} ACT1 {bank_group} {bank} {row}")
+                dram_commands.append(f"{t2*2} {channel} WR0  {bank_group} {bank} {column}{low_column}")
+                dram_commands.append(f"{t2*2} {channel} WR1  {bank_group} {bank} {column}{low_column}")
                 dram_commands.append(f"{t3*2} {channel} PRE  {bank_group} {bank} \n")       
         elif bank_group == temp_bankgroup and bank == temp_bank:
             t1 = t3 + 1 + tRP
