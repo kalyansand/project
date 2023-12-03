@@ -23,23 +23,6 @@ tCCD_L_RTW= 16
 tCCD_S_RTW =16
 tCCD_L_WTR =70
 tCCD_S_WTR =52
-
-# Function to read and parse input file (unchanged)
-def read_input_trace(file_name):
-    memory_requests = []
-    with open(file_name, 'r') as file:
-        for line in file:
-            time, core, operation, address = line.strip().split()
-            memory_requests.append({
-                "time": int(time),
-                "core": int(core),
-                "operation": int(operation),
-                "address": address
-            })
-            
-            # print(memory_requests)
-    return memory_requests
-
 def address_mapping(address):
     binary_address = bin(int(address, 16))[2:].zfill(34)
     low_column = hex(int(binary_address[-6:-2], 2))[2:]
@@ -57,7 +40,21 @@ def address_mapping(address):
     # print(f"Column: {column}")
     # print(f"Row: {row}")
     return (low_column,bank_group,bank,column,row)
-
+# Function to read and parse input file (unchanged)
+def read_input_trace(file_name):
+    memory_requests = []
+    with open(file_name, 'r') as file:
+        for line in file:
+            time, core, operation, address = line.strip().split()
+            memory_requests.append({
+                "time": int(time),
+                "core": int(core),
+                "operation": int(operation),
+                "address": address
+            })
+            
+            # print(memory_requests)
+    return memory_requests
 
 # Generate DRAM commands based on memory operation type
 def generate_dram_commands(memory_requests):
